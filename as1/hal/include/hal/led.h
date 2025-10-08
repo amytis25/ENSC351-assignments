@@ -2,6 +2,8 @@
 #define LED_H
 #include <stdio.h> // fopen, fprintf, fclose, perror
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
+#include <stdbool.h>
+#include <time.h>
 
 
 #define GREEN_LED_TRIGGER_FILE "/sys/class/leds/ACT/trigger"
@@ -17,8 +19,8 @@ bool GreenLed_turnOff();
 bool RedLed_turnOn();
 bool RedLed_turnOff();
 
-bool GreenLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat);
-bool RedLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat);
+bool GreenLed_flash(long long delayInMs, int numRepeat);
+bool RedLed_flash(long long delayInMs, int numRepeat);
 
 void RedLed_cleanup();
 void GreenLed_cleanup();

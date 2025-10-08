@@ -1,4 +1,5 @@
 #include "hal/led.h"
+#include "hal/timing.h"
 #include <stdio.h> // fopen, fprintf, fclose, perror
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
 #include <stdbool.h>
@@ -39,7 +40,7 @@ bool GreenLed_turnOff() {
     return writeToFile(GREEN_LED_BRIGHTNESS_FILE, "0");
 }
 
-bool GreenLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
+bool GreenLed_flash(long long delayInMs, int numRepeat) {
     // Set trigger to heartbeat for flashing effect
     if (!writeToFile(GREEN_LED_TRIGGER_FILE, "heartbeat")) {
         return false;
@@ -53,8 +54,7 @@ bool GreenLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
         }
 
         // Sleep for the specified delay
-        struct timespec reqDelay = {seconds_delay, nanoseconds_delay};
-        nanosleep(&reqDelay, (struct timespec *) NULL);
+         sleepForMs(delayInMs);
 
         // Turn off the LED
         if (!GreenLed_turnOff()) {
@@ -62,7 +62,7 @@ bool GreenLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
         }
 
         // Sleep for the specified delay before the next flash
-        nanosleep(&reqDelay, (struct timespec *) NULL);
+        sleepForMs(delayInMs);
     }
 
     return true;
@@ -91,7 +91,7 @@ bool RedLed_turnOff() {
     return writeToFile(RED_LED_BRIGHTNESS_FILE, "0");
 }
 
-bool RedLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
+bool RedLed_flash(long long delayInMs, int numRepeat) {
     // Set trigger to timer for flashing effect
     if (!writeToFile(RED_LED_TRIGGER_FILE, "timer")) {
         return false;
@@ -105,8 +105,7 @@ bool RedLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
         }
 
         // Sleep for the specified delay
-        struct timespec reqDelay = {seconds_delay, nanoseconds_delay};
-        nanosleep(&reqDelay, (struct timespec *) NULL);
+        sleepForMs(delayInMs);
 
         // Turn off the LED
         if (!RedLed_turnOff()) {
@@ -114,7 +113,7 @@ bool RedLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
         }
 
         // Sleep for the specified delay before the next flash
-        nanosleep(&reqDelay, (struct timespec *) NULL);
+        sleepForMs(delayInMs);
     }
 
     return true;
