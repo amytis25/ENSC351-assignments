@@ -4,10 +4,10 @@
 
 # Find all source files in the src directory
 include_directories(hal/include)
-file(GLOB HAL_SOURCES "src/*.c")
+file(GLOB MY_SOURCES "src/*.c")
 
 # Create the HAL static library
-add_library(hal STATIC ${HAL_SOURCES})
+add_library(hal STATIC ${MY_SOURCES})
 
 # Make the include directory available to users of this library
 target_include_directories(hal PUBLIC include)
@@ -15,9 +15,3 @@ target_include_directories(hal PUBLIC include)
 # Link required libraries for LED control and timing
 target_link_libraries(hal PUBLIC rt)  # For nanosleep and real-time functions
 
-# Set library properties
-set_target_properties(hal PROPERTIES
-    OUTPUT_NAME "hal_led"
-    VERSION ${PROJECT_VERSION}
-    SOVERSION 1
-)
