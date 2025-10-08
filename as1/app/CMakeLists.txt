@@ -19,9 +19,4 @@ add_custom_command(TARGET reaction_timer POST_BUILD
      "~/ensc351/public/myApps/reaction_timer" 
   COMMENT "Copying ARM executable to public NFS directory")
 
-# Also copy to project root for easy local testing
-add_custom_command(TARGET reaction_timer POST_BUILD 
-  COMMAND "${CMAKE_COMMAND}" -E copy 
-     "$<TARGET_FILE:reaction_timer>"
-     "${CMAKE_SOURCE_DIR}/reaction_timer" 
-  COMMENT "Copying executable to project root for local testing")
+

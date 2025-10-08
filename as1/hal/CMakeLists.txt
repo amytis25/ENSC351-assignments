@@ -3,6 +3,7 @@
 #   Use header as: #include "led.h"
 
 # Find all source files in the src directory
+include_directories(hal/include)
 file(GLOB HAL_SOURCES "src/*.c")
 
 # Create the HAL static library
