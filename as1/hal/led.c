@@ -1,40 +1,128 @@
+#include "led.h"
 #include <stdio.h> // fopen, fprintf, fclose, perror
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
+#include <stdbool.h>
+#include <time.h>
 
-#define GREEN_LED_TRIGGER_FILE "/sys/class/leds/ACT/trigger"
-
-int main (){
-
+// Helper function to write to a file
+static bool writeToFile(const char* filename, const char* value) {
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return false;
+    }
     
-    // 1) Open the trigger file for writing.
-    //    WHY: sysfs exposes device controls as files; writing the trigger name selects behavior.
-    FILE *pGreenLedTriggerFile = fopen(GREEN_LED_TRIGGER_FILE, "w");
-    if (pGreenLedTriggerFile == NULL) {
-        // If this fails, it’s usually a permissions issue (need sudo) or wrong path.
-        perror("Error opening green LED trigger file");
-        exit(EXIT_FAILURE);
+    if (fprintf(file, "%s", value) < 0) {
+        perror("Error writing to file");
+        fclose(file);
+        return false;
     }
-
-    // 2) Write the new trigger value (e.g., "none") to the file.
-    //    WHY: This tells the kernel LED subsystem to switch the LED’s control source.
-    //    - "none"  -> manual control via brightness
-    //    - "heartbeat" -> kernel blinks to show liveness
-    //    - "timer" -> enables delay_on/delay_off files for kernel-timed blinking
-    int charsWritten = fprintf(pGreenLedTriggerFile, "none");
-    if (charsWritten <= 0) {
-        perror("Error writing trigger value to LED file");
-        fclose(pGreenLedTriggerFile);  // try to close before exiting
-        exit(EXIT_FAILURE);
-    }
-
-    // 3) Close the file to flush the write.
-    //    WHY: sysfs applies changes on write/close; closing ensures the kernel sees your update.
-    if (fclose(pGreenLedTriggerFile) != 0) {
-        perror("Error closing green LED trigger file");
-        exit(EXIT_FAILURE);
-    }
-
-
-    return EXIT_SUCCESS;
-
+    
+    fclose(file);
+    return true;
 }
+
+// Green LED Functions
+bool GreenLed_turnOn() {
+    // Set trigger to none and brightness to 1
+    if (!writeToFile(GREEN_LED_TRIGGER_FILE, "none")) {
+        return false;
+    }
+    return writeToFile(GREEN_LED_BRIGHTNESS_FILE, "1");
+}
+
+bool GreenLed_turnOff() {
+    // Set trigger to none and brightness to 0
+    if (!writeToFile(GREEN_LED_TRIGGER_FILE, "none")) {
+        return false;
+    }
+    return writeToFile(GREEN_LED_BRIGHTNESS_FILE, "0");
+}
+
+bool GreenLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
+    // Set trigger to heartbeat for flashing effect
+    if (!writeToFile(GREEN_LED_TRIGGER_FILE, "heartbeat")) {
+        return false;
+    }
+
+    // Flash the LED the specified number of times
+    for (int i = 0; i < numRepeat; i++) {
+        // Turn on the LED
+        if (!GreenLed_turnOn()) {
+            return false;
+        }
+
+        // Sleep for the specified delay
+        struct timespec reqDelay = {seconds_delay, nanoseconds_delay};
+        nanosleep(&reqDelay, (struct timespec *) NULL);
+
+        // Turn off the LED
+        if (!GreenLed_turnOff()) {
+            return false;
+        }
+
+        // Sleep for the specified delay before the next flash
+        nanosleep(&reqDelay, (struct timespec *) NULL);
+    }
+
+    return true;
+}
+
+void GreenLed_cleanup() {
+    // Turn off the LED and reset trigger
+    writeToFile(GREEN_LED_TRIGGER_FILE, "none");
+    writeToFile(GREEN_LED_BRIGHTNESS_FILE, "0");
+}
+
+// Red LED Functions
+bool RedLed_turnOn() {
+    // Set trigger to none and brightness to 1
+    if (!writeToFile(RED_LED_TRIGGER_FILE, "none")) {
+        return false;
+    }
+    return writeToFile(RED_LED_BRIGHTNESS_FILE, "1");
+}
+
+bool RedLed_turnOff() {
+    // Set trigger to none and brightness to 0
+    if (!writeToFile(RED_LED_TRIGGER_FILE, "none")) {
+        return false;
+    }
+    return writeToFile(RED_LED_BRIGHTNESS_FILE, "0");
+}
+
+bool RedLed_flash(long seconds_delay, long nanoseconds_delay, int numRepeat) {
+    // Set trigger to timer for flashing effect
+    if (!writeToFile(RED_LED_TRIGGER_FILE, "timer")) {
+        return false;
+    }
+
+    // Flash the LED the specified number of times
+    for (int i = 0; i < numRepeat; i++) {
+        // Turn on the LED
+        if (!RedLed_turnOn()) {
+            return false;
+        }
+
+        // Sleep for the specified delay
+        struct timespec reqDelay = {seconds_delay, nanoseconds_delay};
+        nanosleep(&reqDelay, (struct timespec *) NULL);
+
+        // Turn off the LED
+        if (!RedLed_turnOff()) {
+            return false;
+        }
+
+        // Sleep for the specified delay before the next flash
+        nanosleep(&reqDelay, (struct timespec *) NULL);
+    }
+
+    return true;
+}
+
+void RedLed_cleanup() {
+    // Turn off the LED and reset trigger
+    writeToFile(RED_LED_TRIGGER_FILE, "none");
+    writeToFile(RED_LED_BRIGHTNESS_FILE, "0");
+}
+
