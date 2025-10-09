@@ -11,7 +11,7 @@
 #define RED_LED_TRIGGER_FILE "/sys/class/leds/FPGA_RED/trigger"
 #define RED_LED_BRIGHTNESS_FILE "/sys/class/leds/FPGA_RED/brightness"
 
-static bool writeToFile(const char* filename, const char* value);
+bool writeToFile(const char* filename, const char* value);
 
 bool GreenLed_turnOn();
 bool GreenLed_turnOff();

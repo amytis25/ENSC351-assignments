@@ -6,7 +6,7 @@
 #include <time.h>
 
 // Helper function to write to a file
-static bool writeToFile(const char* filename, const char* value) {
+bool writeToFile(const char* filename, const char* value) {
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
         perror("Error opening file");
