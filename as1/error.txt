@@ -1,0 +1,14 @@
+amytis@amytis:~/ensc351/work/as1$ cmake --build build
+[ 20%] Building C object hal/CMakeFiles/hal.dir/src/led.c.o
+In file included from /home/amytis/ensc351/work/as1/hal/src/led.c:2:
+/home/amytis/ensc351/work/as1/hal/include/hal/timing.h:9:18: error: ‘getTimeInMs’ declared ‘static’ but never defined [-Werror=unused-function]
+    9 | static long long getTimeInMs(void);
+      |                  ^~~~~~~~~~~
+/home/amytis/ensc351/work/as1/hal/include/hal/timing.h:11:13: error: ‘sleepForMs’ used but never defined [-Werror]
+   11 | static void sleepForMs(long long delayInMs);
+      |             ^~~~~~~~~~
+cc1: all warnings being treated as errors
+gmake[2]: *** [hal/CMakeFiles/hal.dir/build.make:76: hal/CMakeFiles/hal.dir/src/led.c.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:116: hal/CMakeFiles/hal.dir/all] Error 2
+gmake: *** [Makefile:91: all] Error 2
+
