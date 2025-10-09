@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
 #include <stdbool.h>
-#include "led.h"
+#include "hal/led.h"
+#include "hal/timing.h"
 #include <time.h>
 
 int main(){
@@ -11,8 +12,10 @@ int main(){
         b) Turn on the red LED for 250ms, then turn off.*/
     printf("Get Ready!\n");
     for (int i = 0; i < 4; i++){
-        GreenLed_flash(0, 250000000, 1); // Flash green LED every 0.25 seconds
-        RedLed_flash(0, 250000000, 1);   // Flash red LED every 0.25 seconds
+        GreenLed_flash(250, 1); // Flash green LED for 250ms, 1 time
+        sleepForMs(250);    // Wait for 250ms
+        RedLed_flash(250, 1);   // Flash red LED for 250ms, 1 time
+        sleepForMs(250);    // Wait for 250ms
     }
 
 }
