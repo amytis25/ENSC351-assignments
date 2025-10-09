@@ -1,14 +1,13 @@
 amytis@amytis:~/ensc351/work/as1$ cmake --build build
 [ 20%] Building C object hal/CMakeFiles/hal.dir/src/led.c.o
-In file included from /home/amytis/ensc351/work/as1/hal/src/led.c:2:
-/home/amytis/ensc351/work/as1/hal/include/hal/timing.h:9:18: error: ‘getTimeInMs’ declared ‘static’ but never defined [-Werror=unused-function]
-    9 | static long long getTimeInMs(void);
-      |                  ^~~~~~~~~~~
-/home/amytis/ensc351/work/as1/hal/include/hal/timing.h:11:13: error: ‘sleepForMs’ used but never defined [-Werror]
-   11 | static void sleepForMs(long long delayInMs);
-      |             ^~~~~~~~~~
-cc1: all warnings being treated as errors
-gmake[2]: *** [hal/CMakeFiles/hal.dir/build.make:76: hal/CMakeFiles/hal.dir/src/led.c.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:116: hal/CMakeFiles/hal.dir/all] Error 2
+[ 40%] Building C object hal/CMakeFiles/hal.dir/src/timing.c.o
+[ 60%] Linking C static library libhal.a
+[ 60%] Built target hal
+[ 80%] Building C object app/CMakeFiles/reaction_timer.dir/reaction_timer.c.o
+/home/amytis/ensc351/work/as1/app/reaction_timer.c:4:10: fatal error: led.h: No such file or directory
+    4 | #include "led.h"
+      |          ^~~~~~~
+compilation terminated.
+gmake[2]: *** [app/CMakeFiles/reaction_timer.dir/build.make:76: app/CMakeFiles/reaction_timer.dir/reaction_timer.c.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:142: app/CMakeFiles/reaction_timer.dir/all] Error 2
 gmake: *** [Makefile:91: all] Error 2
-
