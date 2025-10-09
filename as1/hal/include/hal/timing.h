@@ -6,9 +6,9 @@
 #include <time.h>
 
 
-static long long getTimeInMs(void);
+long long getTimeInMs(void);
 
-static void sleepForMs(long long delayInMs);
+void sleepForMs(long long delayInMs);
 
 
 
