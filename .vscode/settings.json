@@ -1,3 +1,4 @@
 {
-    "C_Cpp.codeAnalysis.clangTidy.enabled": true
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "cmake.sourceDirectory": "/home/amytis/ensc351/work/as1"
 }
