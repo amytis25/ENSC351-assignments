@@ -1,0 +1,9 @@
+# clean up any previous mount
+sudo umount /mnt/host 2>/dev/null || true
+
+# mount the folder that actually contains SPI_target
+sudo mkdir -p /mnt/host
+sudo mount -t nfs -o nolock,vers=3 192.168.7.1:/home/amytis/ensc351/public /mnt/host
+
+# verify contents
+ls -l /mnt/host
