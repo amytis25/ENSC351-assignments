@@ -9,12 +9,14 @@
 bool writeToFile(const char* filename, const char* value) {
     FILE* file = fopen(filename, "w");
     if (file == NULL) {
-        perror("Error opening file");
+        fprintf(stderr, "Error opening file '%s': ", filename);
+        perror(NULL);
         return false;
     }
     
     if (fprintf(file, "%s", value) < 0) {
-        perror("Error writing to file");
+        fprintf(stderr, "Error writing to file '%s': ", filename);
+        perror(NULL);
         fclose(file);
         return false;
     }

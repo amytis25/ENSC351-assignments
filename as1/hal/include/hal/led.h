@@ -6,10 +6,10 @@
 #include <time.h>
 
 
-#define GREEN_LED_TRIGGER_FILE "~/sys/class/leds/ACT/trigger"
-#define GREEN_LED_BRIGHTNESS_FILE "~/sys/class/leds/ACT/brightness"
-#define RED_LED_TRIGGER_FILE "~/sys/class/leds/FPGA_RED/trigger"
-#define RED_LED_BRIGHTNESS_FILE "~/sys/class/leds/FPGA_RED/brightness"
+#define GREEN_LED_TRIGGER_FILE "/sys/class/leds/ACT/trigger"
+#define GREEN_LED_BRIGHTNESS_FILE "/sys/class/leds/ACT/brightness"
+#define RED_LED_TRIGGER_FILE "/sys/class/leds/PWR/trigger"
+#define RED_LED_BRIGHTNESS_FILE "/sys/class/leds/PWR/brightness"
 
 bool writeToFile(const char* filename, const char* value);
 
