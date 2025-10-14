@@ -1,4 +1,7 @@
 {
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
-    "cmake.sourceDirectory": "C:/Users/Amytis/OneDrive/Desktop/SFU/2025/FALL 2025/ENSC351/Github/ENSC351-assignments/as1"
+    "cmake.sourceDirectory": "C:/Users/Amytis/OneDrive/Desktop/SFU/2025/FALL 2025/ENSC351/Github/ENSC351-assignments/as1",
+    "files.associations": {
+        "led.h": "c"
+    }
 }

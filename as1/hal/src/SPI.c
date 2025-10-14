@@ -1,12 +1,12 @@
-// spi_adc.c
+#include "hal/led.h"
+#include "hal/timing.h"
+#include "hal/SPI.h"
+#include <stdio.h> // fopen, fprintf, fclose, perror
+#include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
+#include <stdbool.h>
+#include <time.h>
 
-#include <stdio.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/spi/spidev.h>
-
+// at center ch0 (x) = 2048, ch1 (y) = 2048
 static int read_ch(int fd, int ch, uint32_t speed_hz) {
     // fd is the file descriptor for the SPI device
     // ch is the channel number on the ADC
@@ -14,7 +14,7 @@ static int read_ch(int fd, int ch, uint32_t speed_hz) {
     // tx this is our request message to the ADC
     // rx this is our receive buffer
 
-    // at center ch0 (x) = 2048, ch1 (y) = 2048
+    
     
 
     uint8_t tx[3] = { (uint8_t)(0x06 | ((ch & 0x04) >> 2)),
@@ -37,11 +37,23 @@ static int read_ch(int fd, int ch, uint32_t speed_hz) {
     return ((rx[1] & 0x0F) << 8) | rx[2];  // 12-bit result
 }
 
-int main(void) {
-    const char* dev = "/dev/spidev0.0";
+// Normalize 12-bit ADC value (0..4095) to -100..100 with center at 2048
+static int normalize_adc(int raw) {
+    const int center = 2048;
+    const int span = 2048; // symmetric span
+    int offset = raw - center; // -2048..+2047
+    double frac = (double)offset / (double)span; // approx -1..+1
+    if (frac > 1.0) frac = 1.0;
+    if (frac < -1.0) frac = -1.0;
+    return (int)(frac * 100.0);
+}
+
+joystick_values Read_ADC_Values(void) {
+    const char* dev = SPI_DEV_PATH;
     uint8_t mode = 0;       // SPI mode 0
     uint8_t bits = 8;
     uint32_t speed = 250000;
+    joystick_values jv = {0, 0}; // Default return value in case of error
 
     int fd = open(dev, O_RDWR);
     if (fd < 0) { perror("open"); return 1; }
@@ -52,8 +64,17 @@ int main(void) {
     int ch0_x = read_ch(fd, 0, speed);
     int ch1_y = read_ch(fd, 1, speed);
 
-    printf("CH0 (x)=%d  CH1 (y)=%d\n", ch0_x, ch1_y);
+    if (ch0_x < 0 || ch1_y < 0) {
+        fprintf(stderr, "SPI read error\n");
+    } else {
+        int n_x = normalize_adc(ch0_x);
+        int n_y = normalize_adc(ch1_y);
+        printf("CH0 (x) raw=%d normalized=%d  CH1 (y) raw=%d normalized=%d\n",
+               ch0_x, n_x, ch1_y, n_y);
+        jv.x = n_x;
+        jv.y = n_y;
+    }
 
     close(fd);
-    return 0;
+    return jv;
 }
