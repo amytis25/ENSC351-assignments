@@ -7,7 +7,7 @@
 #include <time.h>
 
 // at center ch0 (x) = 2048, ch1 (y) = 2048
-static int read_ch(int fd, int ch, uint32_t speed_hz) {
+int read_ch(int fd, int ch, uint32_t speed_hz) {
     // fd is the file descriptor for the SPI device
     // ch is the channel number on the ADC
     // speed_hz SPI clock speed
@@ -38,7 +38,7 @@ static int read_ch(int fd, int ch, uint32_t speed_hz) {
 }
 
 // Normalize 12-bit ADC value (0..4095) to -100..100 with center at 2048
-static int normalize_adc(int raw) {
+int normalize_adc(int raw) {
     const int center = 2048;
     const int span = 2048; // symmetric span
     int offset = raw - center; // -2048..+2047

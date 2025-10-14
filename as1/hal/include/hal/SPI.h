@@ -15,7 +15,9 @@ typedef struct  {
     int y; // normalized y value (-100 to 100)
 } joystick_values;
 
-static int read_ch(int fd, int ch, uint32_t speed_hz);
+int read_ch(int fd, int ch, uint32_t speed_hz);
+
+int normalize_adc(int raw);
 
 joystick_values Read_ADC_Values(void);
 

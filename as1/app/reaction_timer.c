@@ -11,7 +11,7 @@ int main(){
     long long reaction_time_ms;
     int wait_min_ms = 500;
     int wait_max_ms = 3000;
-    int recordedTime = 5000;
+    long long recordedTime = 5000;
     int randomWait = wait_min_ms + (rand() % (wait_max_ms - wait_min_ms + 1));
     
     printf("Random wait time: %d ms\n", randomWait);
@@ -54,21 +54,21 @@ int main(){
         }
         else if (randomDir == 0 && jv.y > 25) { // Moved up
             reaction_time_ms = getTimeInMs() - startTime;
-            printf("You moved the joystick UP! Reaction time: %d ms\n", reaction_time_ms);
+            printf("You moved the joystick UP! Reaction time: %lld ms\n", reaction_time_ms);
             GreenLed_flash(200, 5); // flash the green LED on and off five times in one second
             if (reaction_time_ms < recordedTime) {
                 recordedTime = reaction_time_ms;
-                printf("New record! Fastest reaction time: %d ms\n", recordedTime);
+                printf("New record! Fastest reaction time: %lld ms\n", recordedTime);
             }
             break;
         } 
         else if (randomDir == 1 && jv.y < -25) { // Moved down
             reaction_time_ms = getTimeInMs() - startTime;
-            printf("You moved the joystick DOWN! Reaction time: %d ms\n", reaction_time_ms);
+            printf("You moved the joystick DOWN! Reaction time: %lld ms\n", reaction_time_ms);
             GreenLed_flash(200, 5); // flash the green LED on and off five times in one second
             if (reaction_time_ms < recordedTime) {
                 recordedTime = reaction_time_ms;
-                printf("New record! Fastest reaction time: %d ms\n", recordedTime);
+                printf("New record! Fastest reaction time: %lld ms\n", recordedTime);
             }
             break;
         } else {

@@ -3,4 +3,5 @@
 *.bin   # General binary files
 *.o     # Object files
 *.obj   # Object files for Windows
+*.json 
 build/
