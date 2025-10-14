@@ -102,7 +102,7 @@ long long game (long long highestRecord){
     // check if reaction time is a new record
     if (reaction_time_ms < highestRecord) {
                 highestRecord = reaction_time_ms;
-                printf("New record! Fastest reaction time: %lld ms\n", recordedTime);
+                printf("New record! Fastest reaction time: %lld ms\n", highestRecord);
             }
     // cleanup 
     if (randomDir == 0) { 
