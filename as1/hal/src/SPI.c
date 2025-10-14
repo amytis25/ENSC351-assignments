@@ -69,7 +69,7 @@ joystick_values Read_ADC_Values(void) {
     } else {
         int n_x = normalize_adc(ch0_x);
         int n_y = normalize_adc(ch1_y);
-        printf("CH0 (x) raw=%d normalized=%d  CH1 (y) raw=%d normalized=%d\n",
+        //printf("CH0 (x) raw=%d normalized=%d  CH1 (y) raw=%d normalized=%d\n",
                ch0_x, n_x, ch1_y, n_y);
         jv.x = n_x;
         jv.y = n_y;
