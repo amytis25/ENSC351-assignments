@@ -56,10 +56,10 @@ joystick_values Read_ADC_Values(void) {
     joystick_values jv = {0, 0}; // Default return value in case of error
 
     int fd = open(dev, O_RDWR);
-    if (fd < 0) { perror("open"); return 1; }
-    if (ioctl(fd, SPI_IOC_WR_MODE, &mode) == -1) { perror("mode"); return 1; }
-    if (ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits) == -1) { perror("bpw"); return 1; }
-    if (ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1) { perror("speed"); return 1; }
+    if (fd < 0) { perror("open"); return jv; }
+    if (ioctl(fd, SPI_IOC_WR_MODE, &mode) == -1) { perror("mode"); return jv; }
+    if (ioctl(fd, SPI_IOC_WR_BITS_PER_WORD, &bits) == -1) { perror("bpw"); return jv; }
+    if (ioctl(fd, SPI_IOC_WR_MAX_SPEED_HZ, &speed) == -1) { perror("speed"); return jv; }
 
     int ch0_x = read_ch(fd, 0, speed);
     int ch1_y = read_ch(fd, 1, speed);
