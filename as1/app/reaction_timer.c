@@ -8,7 +8,7 @@
 
 typedef struct reaction_returns
 {
-    long long reaction_time;
+    long long reaction_time_ms;
     bool status;
 } reaction_returns;
 
@@ -46,26 +46,30 @@ reaction_returns getReactionTime(int direction){
         jv = Read_ADC_Values();
         if (jv.x > 50 || jv.x < -50) {
             printf("User selected to quit.\n");
-            result = {5000, false};
+            result.reaction_time_ms = 5000;
+            result.status = false;
             return result;
         }
         else if ((direction == 0 && jv.y > 50)||(direction == 1 && jv.y < -50)) { // correct direction
             reaction_time_ms = getTimeInMs() - startTime;
             printf("Correct!\n");
             GreenLed_flash(200, 5); // flash the green LED on and off five times in one second
-            result = {reaction_time_ms, true};
+            result.reaction_time_ms = reaction_time_ms;
+            result.status = true;
             return result;
             break;
         } 
         else if ((direction == 0 && jv.y < -50)||(direction == 1 && jv.y > 50) ){ // wrong direction
             printf("Incorrect direction!.\n");
-            reaction_returns result = {5000, true};
+            result.reaction_time_ms = 5000;
+            result.status = true;
             return result;
             break;
         } 
     }
     printf("No input within 5 seconds; quitting!\n");
-    result = {5000, false}; // Return a high value indicating timeout
+    result.reaction_time_ms = 5000;
+    result.status = false;
     return result;
 }
 reaction_returns game (long long highestRecord){
@@ -123,7 +127,6 @@ reaction_returns game (long long highestRecord){
 
 int main(){
     long long HighestRecord = 5000;
-    bool status = true;
     reaction_returns current = {5000, true};
 
 
