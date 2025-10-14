@@ -74,7 +74,6 @@ reaction_returns getReactionTime(int direction){
 }
 reaction_returns game (long long highestRecord){
     joystick_values jv;
-    long long reaction_time_ms;
     int wait_min_ms = 500;
     int wait_max_ms = 3000;
     reaction_returns result = {5000, true};
@@ -108,10 +107,10 @@ reaction_returns game (long long highestRecord){
     // check if reaction time is a new record
     if (result.reaction_time_ms < highestRecord) {
                 highScore.reaction_time_ms = result.reaction_time_ms;
-                printf("New record! Fastest reaction time: %lld ms\n", highestRecord);
+                printf("New record! Fastest reaction time: %lld ms\n", highScore.reaction_time_ms);
             }
             else {
-                printf("Your reaction time was %lld ms. Fastest reaction time remains: %lld ms\n", reaction_time_ms, highestRecord);
+                printf("Your reaction time was %lld ms. Fastest reaction time remains: %lld ms\n", result.reaction_time_ms, highScore.reaction_time_ms);
             }
     // update game status
     highScore.status = result.status;
@@ -132,6 +131,7 @@ int main(){
 
     while (current.status == true) {
         current = game(HighestRecord);
+        HighestRecord = current.reaction_time_ms;
     }
 
     return 0;
