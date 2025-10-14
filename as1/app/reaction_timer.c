@@ -122,7 +122,7 @@ int main(){
     
     reaction_returns current = {5000, true};
 
-    printf("When the LEDs light up, press the joystick in that direction! (green -> up, red -> down)\n");
+    printf("When the LEDs light up, press the joystick in that direction! \n (green -> up, red -> down)\n");
     printf("(Press left or right to exit)\n");
     while (current.status == true) {
         current = game(current);
