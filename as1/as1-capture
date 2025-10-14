@@ -69,30 +69,6 @@ When the LEDs light up, press the joystick in that direction!
  (green -> up, red -> down)
 (Press left or right to exit)
 Get Ready...
-Press DOWN now!
-User selected to quit.
-amytis@BeagleBone:/mnt/host/as1/app$ sudo ./reaction_timer
-When the LEDs light up, press the joystick in that direction! 
- (green -> up, red -> down)
-(Press left or right to exit)
-Get Ready...
-Press UP now!
-Incorrect direction!.
-Get Ready...
-Press DOWN now!
-Incorrect direction!.
-Get Ready...
-Press DOWN now!
-Correct!
-New record! Fastest reaction time: 0 ms
-Get Ready...
-Press DOWN now!
-User selected to quit.
-amytis@BeagleBone:/mnt/host/as1/app$ sudo ./reaction_timer
-When the LEDs light up, press the joystick in that direction! 
- (green -> up, red -> down)
-(Press left or right to exit)
-Get Ready...
 Press UP now!
 Correct!
 New record! Fastest reaction time: 740 ms
