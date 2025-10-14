@@ -1,9 +1,3 @@
-green light brightness: /sys/class/leds/ACT/brightness
-green light trigger: /sys/class/leds/ACT/trigger
-
-red light brightness: /sys/class/leds/PWR/brightness
-red light trigger: /sys/class/leds/PWR/trigger
-
 **Application pseudo-code**
 Display the welcome message and directions on how to play.
 Continuously loop through the following steps:
