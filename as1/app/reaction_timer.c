@@ -21,7 +21,7 @@ void startup() {
     a) Turn on the green LED for 250ms, then turn off.
     b) Turn on the red LED for 250ms, then turn off.*/
     
-    printf("Get Ready...\n");
+    printf("\nGet Ready...\n");
     for (int i = 0; i < 4; i++){
         GreenLed_flash(250, 1); // Flash green LED for 250ms, 1 time
         sleepForMs(250);    // Wait for 250ms
@@ -49,14 +49,15 @@ bool randomWait(){
     /* get a random wait time between 0.5s and 3s */
     int randomWait = wait_min_ms + (rand() % (wait_max_ms - wait_min_ms + 1));
 
-    current_time = getTimeInMs();
+    long long current_time = getTimeInMs();
     while (getTimeInMs() - current_time < randomWait) {
+        joystick_values jv = Read_ADC_Values();
         // wait
-        if (jv.x > 5 && jv.y > 5 && jv.x < -5 && jv.y < -5) {
-            printf("Please let go of joystick\n");
+        if (jv.x > 25 || jv.y > 25 || jv.x < -25 || jv.y < -25) {
+            printf("too soon!\n");
             return false; // restart wait if joystick is not centered
             break;
-        }
+        } 
     }
     return true;
 
@@ -120,7 +121,7 @@ reaction_returns game (reaction_returns current){
 
     // ensure joystick is centered before starting
     jv = Read_ADC_Values();
-    if (jv.x > 5 && jv.y > 5 && jv.x < -5 && jv.y < -5) {
+    if (jv.x > 25 || jv.y > 25 || jv.x < -25 || jv.y < -25) {
         printf("Please let go of joystick\n");
     } 
     // do startup
@@ -128,7 +129,7 @@ reaction_returns game (reaction_returns current){
 
     // Wait for random time between 0.5s to 3s
     if (!randomWait()) {
-        break; // restart game if joystick is not centered
+        return current; // restart game if joystick is not centered
     }
     
     // initialize game and get reaction time
