@@ -55,6 +55,7 @@ bool randomWait(){
         if (jv.x > 5 && jv.y > 5 && jv.x < -5 && jv.y < -5) {
             printf("Please let go of joystick\n");
             return false; // restart wait if joystick is not centered
+            break;
         }
     }
     return true;
