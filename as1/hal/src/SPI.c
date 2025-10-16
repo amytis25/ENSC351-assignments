@@ -13,10 +13,6 @@ int read_ch(int fd, int ch, uint32_t speed_hz) {
     // speed_hz SPI clock speed
     // tx this is our request message to the ADC
     // rx this is our receive buffer
-
-    
-    
-
     uint8_t tx[3] = { (uint8_t)(0x06 | ((ch & 0x04) >> 2)),
                       (uint8_t)((ch & 0x03) << 6),
                       0x00 };

@@ -25,6 +25,7 @@ void startup() {
         sleepForMs(250);    // Wait for 250ms
     }
 }
+
 void promptUser(int direction) {
     if (direction == 0) {
         printf("Press UP now!\n");
@@ -33,6 +34,27 @@ void promptUser(int direction) {
         printf("Press DOWN now!\n");
         RedLed_turnOn();
     }
+}
+bool randomWait(){
+    int wait_min_ms = 500;
+    int wait_max_ms = 3000;
+    
+    
+    /* seed RNG so rand() produces different sequences across runs */
+    srand(getTimeInMs() % 1000); // seed with current time in ms mod 1000
+    /* get a random wait time between 0.5s and 3s */
+    int randomWait = wait_min_ms + (rand() % (wait_max_ms - wait_min_ms + 1));
+
+    current_time = getTimeInMs();
+    while (getTimeInMs() - current_time < randomWait) {
+        // wait
+        if (jv.x > 5 && jv.y > 5 && jv.x < -5 && jv.y < -5) {
+            printf("Please let go of joystick\n");
+            return false; // restart wait if joystick is not centered
+        }
+    }
+    return true;
+
 }
 reaction_returns getReactionTime(reaction_returns current){
     joystick_values jv;
@@ -62,7 +84,7 @@ reaction_returns getReactionTime(reaction_returns current){
         else if ((direction == 0 && jv.y > 50)||(direction == 1 && jv.y < -50)) { // correct direction
             reaction_time_ms = getTimeInMs() - startTime;
             printf("Correct!\n");
-            GreenLed_flash(200, 5); // flash the green LED on and off five times in one second
+            GreenLed_flash(100, 5); // flash the green LED on and off five times in one second
             if (reaction_time_ms < current.HighScore) {
                 current.HighScore = reaction_time_ms;
                 printf("New record! Fastest reaction time: %lld ms\n", current.HighScore);
@@ -75,7 +97,7 @@ reaction_returns getReactionTime(reaction_returns current){
         } 
         else if ((direction == 0 && jv.y < -50)||(direction == 1 && jv.y > 50) ){ // wrong direction
             printf("Incorrect direction!.\n");
-            RedLed_flash(200, 5); // flash the red LED on and off five times in one second
+            RedLed_flash(100, 5); // flash the red LED on and off five times in one second
             return current;
             break;
         } 
@@ -86,18 +108,10 @@ reaction_returns getReactionTime(reaction_returns current){
 }
 reaction_returns game (reaction_returns current){
     joystick_values jv;
-    int wait_min_ms = 500;
-    int wait_max_ms = 3000;
-    
-    
-    /* seed RNG so rand() produces different sequences across runs */
-    srand(getTimeInMs() % 1000); // seed with current time in ms mod 1000
-    /* get a random wait time between 0.5s and 3s */
-    int randomWait = wait_min_ms + (rand() % (wait_max_ms - wait_min_ms + 1));
-    //printf("Random wait time: %d ms\n", randomWait);
+
   
     // print startup message and flash LEDs
-    startup();
+    
 
     // ensure joystick is centered before starting
     jv = Read_ADC_Values();
@@ -105,16 +119,20 @@ reaction_returns game (reaction_returns current){
         printf("Please let go of joystick\n");
     } 
 
+    startup();
+
     // Wait for random time between 0.5s to 3s
-    sleepForMs(randomWait); 
+    if (!randomWait()) {
+        continue; // restart game if joystick is not centered
+    }
     
     // initialize game and get reaction time
     current = getReactionTime(current);
 
     // cleanup
-    GreenLed_turnOff(); 
-    RedLed_turnOff();
-        
+    GreenLed_cleanup(); 
+    RedLed_cleanup();
+
     return current;
 }
 
