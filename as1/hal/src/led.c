@@ -1,3 +1,7 @@
+// led.c
+// ENSC 351 Fall 2025
+// LED control functions for BeagleY-AI
+
 #include "hal/led.h"
 #include "hal/timing.h"
 #include <stdio.h> // fopen, fprintf, fclose, perror
@@ -5,6 +9,7 @@
 #include <stdbool.h>
 #include <time.h>
 
+// from led guide 
 // Helper function to write to a file
 bool writeToFile(const char* filename, const char* value) {
     FILE* file = fopen(filename, "w");

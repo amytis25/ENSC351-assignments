@@ -1,3 +1,7 @@
+// SPI.c
+// ENSC 351 Fall 2025
+// SPI functions for BeagleY-AI
+
 #include "hal/led.h"
 #include "hal/timing.h"
 #include "hal/SPI.h"
@@ -6,6 +10,7 @@
 #include <stdbool.h>
 #include <time.h>
 
+// from SPI guide
 // at center ch0 (x) = 2048, ch1 (y) = 2048
 int read_ch(int fd, int ch, uint32_t speed_hz) {
     // fd is the file descriptor for the SPI device
@@ -44,6 +49,7 @@ int normalize_adc(int raw) {
     return (int)(frac * 100.0);
 }
 
+// from SPI guide
 joystick_values Read_ADC_Values(void) {
     const char* dev = SPI_DEV_PATH;
     uint8_t mode = 0;       // SPI mode 0

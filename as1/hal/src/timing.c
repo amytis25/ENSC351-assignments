@@ -1,9 +1,14 @@
+// timing.h
+// ENSC 351 Fall 2025
+// Timing functions for BeagleY-AI
+
 #include "hal/timing.h"
 #include <stdio.h> // fopen, fprintf, fclose, perror
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
 #include <stdbool.h>
 #include <time.h>
 
+// from assignment instructions
 long long getTimeInMs(void){
     struct timespec spec;
     clock_gettime(CLOCK_REALTIME, &spec);
@@ -13,6 +18,7 @@ long long getTimeInMs(void){
     return milliSeconds;
 }
 
+// from assignment instructions
 void sleepForMs(long long delayInMs){
     const long long NS_PER_MS = 1000 * 1000;
     const long long NS_PER_SECOND = 1000000000;

@@ -1,3 +1,7 @@
+// reaction_timer.c
+// ENSC 351 Fall 2025
+// Reaction timer game for BeagleY-AI
+
 #include <stdio.h>
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS
 #include <stdbool.h>
@@ -39,7 +43,7 @@ bool randomWait(){
     int wait_min_ms = 500;
     int wait_max_ms = 3000;
     
-    
+    // got random from the internet
     /* seed RNG so rand() produces different sequences across runs */
     srand(getTimeInMs() % 1000); // seed with current time in ms mod 1000
     /* get a random wait time between 0.5s and 3s */
@@ -118,12 +122,12 @@ reaction_returns game (reaction_returns current){
     if (jv.x > 5 && jv.y > 5 && jv.x < -5 && jv.y < -5) {
         printf("Please let go of joystick\n");
     } 
-
+    // do startup
     startup();
 
     // Wait for random time between 0.5s to 3s
     if (!randomWait()) {
-        continue; // restart game if joystick is not centered
+        break; // restart game if joystick is not centered
     }
     
     // initialize game and get reaction time
