@@ -1,6 +1,6 @@
 # Reaction Timer
 
-Bare-metal reaction time measurement application for BeagleY-AI with hardware timer and GPIO interrupt handling.
+Bare-metal reaction time measurement application for BeagleY-AI with hardware timer and SPI-based input handling.
 
 ## Overview
 
@@ -8,10 +8,10 @@ Embedded C application for measuring human reaction time using joystick input. D
 
 ## Features
 
-- **Hardware timer integration:** Microsecond-precision timing using `clock_gettime()`
-- **GPIO interrupt handling:** Low-latency joystick input detection
-- **LED feedback:** Visual cues with PWM-controlled dual-color LED
-- **Debouncing:** Software filtering for reliable input
+- **Hardware timer integration:** Millisecond-precision timing using `clock_gettime()`
+- **SPI communication:** Polling-based joystick input via ADC
+- **LED feedback:** Visual cues with dual-color LED (red/green)
+- **Input validation:** Software filtering for reliable joystick input
 - **Modular HAL:** Abstracted joystick and LED interfaces
 
 ## Hardware Requirements
@@ -88,5 +88,5 @@ cd /root
 - **Language:** C
 - **Build System:** CMake
 - **Target Architecture:** ARM Cortex-A53 (aarch64)
-- **Timing Resolution:** Microseconds
-- **Input Polling:** Event-driven with debouncing
+- **Timing Resolution:** Milliseconds
+- **Input Handling:** Polling-based SPI with analog joystick
