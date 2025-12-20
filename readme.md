@@ -1,4 +1,7 @@
-**Application pseudo-code**
+# ENSC 351 - Assignment 1 - Reaction Timer
+Written by: Amytis Saghafi <br>
+Last Updated: Nov. 2025 
+## Application Functionality 
 Display the welcome message and directions on how to play.
 Continuously loop through the following steps:
 1. Print a “get ready” message, and do the following four (4) times to flash the BYAI’s LEDs:
@@ -26,4 +29,57 @@ back to step 1. No need to check for joystick state during the delay.
     off five times in one second.
     c) If the user pressed the joystick left or right, print a message and quit.
 
+## BEAGLE-Y-AI PIN CONNECTIONS 
 
+- Joystick Module is connected via SPI
+    - select - not used
+    - VRx - channel 0
+    - VRy - channel 1
+
+## CMAKE
+### One Line Commands
+- for host:
+    ```shell
+        ./buildHost.sh
+    ```
+- for target:
+    ```shell
+        ./buildTarget.sh
+    ```
+
+### Manually Running CMake
+
+To manually run CMake from the command line use:
+
+#### Host (build for the machine you're running on)
+
+    ```shell
+    # Regenerate build/ folder and makefiles:
+    rm -rf build/         # Wipes temporary build folder
+    cmake -S . -B build   # Generate makefiles in build
+
+    # Build (compile & link) the project
+    cmake --build build
+    ```
+
+#### Target (cross-compile for aarch64)
+
+Use one of these minimal options (do this from the repo root). Remove the old `build/` or `build/CMakeCache.txt` before changing compilers.
+
+    Option A — pass compilers directly to CMake:
+
+        ```shell
+        rm -rf build/
+        cmake -S . -B build \
+        -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc \
+        -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+        cmake --build build
+        ```
+
+    Option B — set environment variables for a one-shot configure:
+
+        ```shell
+        rm -rf build/
+        CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ cmake -S . -B build
+        cmake --build build
+        ```

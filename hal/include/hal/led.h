@@ -1,6 +1,12 @@
-// led.c
-// ENSC 351 Fall 2025
-// LED control functions for BeagleY-AI
+/*
+ * led.h
+ *
+ * Description: LED control functions for BeagleY-AI.
+ *              Provides an interface to control the onboard LEDs.
+ *
+ * Author: Amytis Saghafi (amytis_saghafi@sfu.ca)
+ * Date of last modification: Oct. 2025 
+ */
 
 #ifndef LED_H
 #define LED_H

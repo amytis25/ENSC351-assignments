@@ -1,6 +1,12 @@
-// timing.h
-// ENSC 351 Fall 2025
-// Timing functions for BeagleY-AI
+/*
+ * timing.c
+ *
+ * Description: Timing functions for BeagleY-AI.
+ *              Provides an interface to manage timing and delays.
+ *
+ * Author: Amytis Saghafi (amytis_saghafi@sfu.ca)
+ * Date of last modification: Oct. 2025 
+ */
 
 #ifndef TIMING_H
 #define TIMING_H

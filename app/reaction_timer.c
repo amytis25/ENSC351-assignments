@@ -1,6 +1,12 @@
-// reaction_timer.c
-// ENSC 351 Fall 2025
-// Reaction timer game for BeagleY-AI
+/*
+ * Reaction_Timer.c
+ *
+ * Description: Reaction timer game for BeagleY-AI.
+ *              Measures user's reaction time to visual stimuli.
+ *
+ * Author: Amytis Saghafi (amytis_saghafi@sfu.ca)
+ * Date of last modification: Oct. 2025 
+ */
 
 #include <stdio.h>
 #include <stdlib.h>  // exit, EXIT_FAILURE, EXIT_SUCCESS

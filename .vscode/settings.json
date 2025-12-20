@@ -1,7 +1,0 @@
-{
-    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
-    "cmake.sourceDirectory": "/home/amytis/ensc351/work/as1",
-    "files.associations": {
-        "led.h": "c"
-    }
-}

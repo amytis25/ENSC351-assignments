@@ -1,6 +1,12 @@
-// SPI.c
-// ENSC 351 Fall 2025
-// SPI functions for BeagleY-AI
+/*
+ * SPI.c
+ *
+ * Description: SPI functions for BeagleY-AI.
+ *              Provides an interface to communicate with Joystick SPI devices.
+ *
+ * Author: Amytis Saghafi (amytis_saghafi@sfu.ca)
+ * Date of last modification: Oct. 2025 
+ */
 
 #include "hal/led.h"
 #include "hal/timing.h"
