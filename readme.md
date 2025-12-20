@@ -1,85 +1,92 @@
-# ENSC 351 - Assignment 1 - Reaction Timer
-Written by: Amytis Saghafi <br>
-Last Updated: Nov. 2025 
-## Application Functionality 
-Display the welcome message and directions on how to play.
-Continuously loop through the following steps:
-1. Print a “get ready” message, and do the following four (4) times to flash the BYAI’s LEDs:
-    a) Turn on the green LED for 250ms, then turn off.
-    b) Turn on the red LED for 250ms, then turn off.
-2. If the user is pressing the joystick up or down, tell them “Please let go of joystick” (just once)
-and then wait until the joystick is not pressing up or down.
-3. Wait a random amount of time between 0.5s and 3.0s.
-4. If, after the delay, the user is pressing the joystick up or down, tell them “too soon” and go
-back to step 1. No need to check for joystick state during the delay.
-5. Picks a random direction (up or down)
-    a) Print the direction name to the screen.
-    b) Display on the BYAI’s LED:
-    If chose “Up”, the turn on the green LED.
-    If chose “Down” turn on the red LED.
-6. Time how long it takes for the user to press the joystick in any direction.
-    If timer > 5s, exit program right away with a message.
-7. Process the user’s joystick press:
-    a) If the user pressed up or down correctly, then:
-    - print a message,
-    - if this was the fastest correct response time yet then display that in a message,
-    - display this attempt’s response time, and best response time so far (in ms),
-    - flash the green LED on and off five times in one second.
-    b) If the user pressed up or down incorrectly, print a message and flash the red LED on and
-    off five times in one second.
-    c) If the user pressed the joystick left or right, print a message and quit.
+# Reaction Timer
 
-## BEAGLE-Y-AI PIN CONNECTIONS 
+Bare-metal reaction time measurement application for BeagleY-AI with hardware timer and GPIO interrupt handling.
 
-- Joystick Module is connected via SPI
-    - select - not used
-    - VRx - channel 0
-    - VRy - channel 1
+## Overview
 
-## CMAKE
-### One Line Commands
-- for host:
-    ```shell
-        ./buildHost.sh
-    ```
-- for target:
-    ```shell
-        ./buildTarget.sh
-    ```
+Embedded C application for measuring human reaction time using joystick input. Demonstrates low-level hardware control, timing precision, and resource-constrained programming on ARM Cortex-A53.
 
-### Manually Running CMake
+## Features
 
-To manually run CMake from the command line use:
+- **Hardware timer integration:** Microsecond-precision timing using `clock_gettime()`
+- **GPIO interrupt handling:** Low-latency joystick input detection
+- **LED feedback:** Visual cues with PWM-controlled dual-color LED
+- **Debouncing:** Software filtering for reliable input
+- **Modular HAL:** Abstracted joystick and LED interfaces
 
-#### Host (build for the machine you're running on)
+## Hardware Requirements
 
-    ```shell
-    # Regenerate build/ folder and makefiles:
-    rm -rf build/         # Wipes temporary build folder
-    cmake -S . -B build   # Generate makefiles in build
+- **Platform:** BeagleY-AI
+- **Input:** Analog joystick (connected via SPI/ADC)
+  - VRx → Channel 0
+  - VRy → Channel 1
+- **Output:** Dual-color LED (red/green)
 
-    # Build (compile & link) the project
-    cmake --build build
-    ```
+## Game Flow
 
-#### Target (cross-compile for aarch64)
+1. Welcome message and instructions
+2. LED flash sequence (green/red, 4 cycles)
+3. Joystick release verification
+4. Random delay (0.5s - 3.0s)
+5. Direction prompt (up/down)
+6. User response timing (5s timeout)
+7. Result display: 
+   - Correct: show time, update best score, flash green
+   - Incorrect: flash red
+   - Quit: press left/right
 
-Use one of these minimal options (do this from the repo root). Remove the old `build/` or `build/CMakeCache.txt` before changing compilers.
+## Building
 
-    Option A — pass compilers directly to CMake:
+### Cross-Compile for Target
 
-        ```shell
-        rm -rf build/
-        cmake -S . -B build \
-        -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc \
-        -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
-        cmake --build build
-        ```
+```bash
+./buildTarget.sh
+```
 
-    Option B — set environment variables for a one-shot configure:
+**Or manually:**
 
-        ```shell
-        rm -rf build/
-        CC=aarch64-linux-gnu-gcc CXX=aarch64-linux-gnu-g++ cmake -S . -B build
-        cmake --build build
-        ```
+```bash
+rm -rf build/
+cmake -S . -B build \
+  -DCMAKE_C_COMPILER=aarch64-linux-gnu-gcc \
+  -DCMAKE_CXX_COMPILER=aarch64-linux-gnu-g++
+cmake --build build
+```
+
+### Host Build (Testing)
+
+```bash
+./buildHost.sh
+```
+
+## Deployment
+
+```bash
+# Copy to target
+scp build/app/reaction_timer root@<target-ip>:/root/
+
+# Run on target
+ssh root@<target-ip>
+cd /root
+./reaction_timer
+```
+
+## Project Structure
+
+```
+.
+├── app/              # Main application
+├── hal/              # Hardware Abstraction Layer
+│   ├── include/      # HAL headers
+│   └── src/          # HAL implementations
+├── buildHost.sh      # Host build script
+└── buildTarget.sh    # Cross-compilation script
+```
+
+## Technical Details
+
+- **Language:** C
+- **Build System:** CMake
+- **Target Architecture:** ARM Cortex-A53 (aarch64)
+- **Timing Resolution:** Microseconds
+- **Input Polling:** Event-driven with debouncing
