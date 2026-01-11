@@ -1,39 +1,40 @@
 # Reaction Timer
 
-Bare-metal reaction time measurement application for BeagleY-AI with hardware timer and SPI-based input handling.
+Embedded Linux reaction time measurement application for BeagleY-AI using SPI-based joystick input and LED feedback.
 
 ## Overview
 
-Embedded C application for measuring human reaction time using joystick input. Demonstrates low-level hardware control, timing precision, and resource-constrained programming on ARM Cortex-A53.
+Embedded C application for measuring human reaction time using an analog joystick. Demonstrates SPI-based peripheral interaction, timing measurement using Linux system calls, and modular hardware abstraction on an embedded Linux platform.
 
 ## Features
 
-- **Hardware timer integration:** Millisecond-precision timing using `clock_gettime()`
-- **SPI communication:** Polling-based joystick input via ADC
-- **LED feedback:** Visual cues with dual-color LED (red/green)
-- **Input validation:** Software filtering for reliable joystick input
-- **Modular HAL:** Abstracted joystick and LED interfaces
+- **Timing measurement:** Millisecond-resolution timing using `clock_gettime()`
+- **SPI communication:** Polling-based joystick input via external ADC
+- **LED feedback:** Visual prompts and results using dual-color LED (red/green)
+- **Input validation:** Software filtering to ensure reliable joystick detection
+- **Modular HAL:** Separate joystick and LED abstraction layers
 
 ## Hardware Requirements
 
 - **Platform:** BeagleY-AI
-- **Input:** Analog joystick (connected via SPI/ADC)
+- **Input:** Analog joystick (via SPI-connected ADC)
   - VRx → Channel 0
   - VRy → Channel 1
 - **Output:** Dual-color LED (red/green)
 
 ## Game Flow
 
-1. Welcome message and instructions
-2. LED flash sequence (green/red, 4 cycles)
-3. Joystick release verification
-4. Random delay (0.5s - 3.0s)
-5. Direction prompt (up/down)
-6. User response timing (5s timeout)
-7. Result display: 
-   - Correct: show time, update best score, flash green
-   - Incorrect: flash red
-   - Quit: press left/right
+1. Display welcome message and instructions  
+2. Flash LEDs (green/red, 4 cycles)  
+3. Verify joystick is released  
+4. Wait random delay (0.5s–3.0s)  
+5. Prompt direction (up/down)  
+6. Measure response time (5s timeout)  
+7. Display result:
+   - **Correct:** Show reaction time, update best time, flash green
+   - **Incorrect:** Flash red
+   - **Quit:** Press joystick left or right
+
 
 ## Building
 
